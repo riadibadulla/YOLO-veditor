@@ -3,6 +3,7 @@ import glob
 import cv2
 import torch
 import matplotlib.pyplot as plt
+from PIL import ImageTk, Image
 
 def delete_redundant_files():
     files = glob.glob('results/*')
@@ -10,7 +11,8 @@ def delete_redundant_files():
         os.remove(f)
     os.rmdir("results/")
 
-def convert_the_video(sample_video_dir="sample_video.mp4"):
+def convert_the_video(sample_video_dir="sample_video.mp4", picture_label=None):
+    print(picture_label)
     cv2.startWindowThread()
     model = torch.hub.load('ultralytics/yolov5','yolov5l')
     cap = cv2.VideoCapture(sample_video_dir)
@@ -25,7 +27,10 @@ def convert_the_video(sample_video_dir="sample_video.mp4"):
         if ret == True:
             frame_number += 1
             result = model([frame]).save("results/")
-            cv2.imshow('Frame', frame)
+            # cv2.imshow('Frame', frame)
+            img = Image.fromarray(frame).resize((444, 250), Image.ANTIALIAS)
+            imgtk = ImageTk.PhotoImage(image = img)
+            picture_label.configure(image=imgtk)
             print(frame_number)
             out.write(frame)
             # Press Q on keyboard to  exit
