@@ -31,7 +31,6 @@ def select_file():
         filetypes=filetypes)
 
     if filename:
-        information_text.set("Press \"q\" to quit")
         th = threading.Thread(target=YOLO.convert_the_video, args=(filename,picture_label,))
         th.start()
 
@@ -47,13 +46,11 @@ img = ImageTk.PhotoImage(Image.open("test.jpg"))
 picture_label = ttk.Label(root, image=img)
 open_button = ttk.Button(root, text='Open a File', command=select_file)
 logo_label = ttk.Label(root, text="YOLO-VEditor", font=("Halvetica", 28))
-information_label = ttk.Label(root, textvariable=information_text, font=("Arial", 9))
 pause_button = ttk.Button(root, text='||', command=pause_the_video)
 stop_button = ttk.Button(root, text='STOP', command=stop_the_video)
 
 logo_label.pack(expand=True)
 open_button.pack(expand=True)
-information_label.pack()
 picture_label.pack(expand = True)
 pause_button.pack()
 stop_button.pack()
